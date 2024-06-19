@@ -1,7 +1,10 @@
 from textnode import TextNode
+from htmlnode import *
 
 def main():
-    dummy_text_node = TextNode("This is a text node", "bold", "https://www.boot.dev")
-    print(dummy_text_node)
+    children_list = [LeafNode("b", "Bold text"), LeafNode(None, "Normal text"), LeafNode("i", "italic text"), LeafNode(None, "Normal text")]
+    node = ParentNode("p", children_list)
+    test_string = node.to_html()
+    print(test_string)
 
 main()
