@@ -77,7 +77,7 @@ Finally, we're asked to create tests for this new class. When we write tests we 
 
 Done and done.
 
-### mod5: LeafNode
+### mod4: LeafNode
 This module is very similar to the previous one, but now we are creating a ```LeafNode```. This is a *type* of ```HTMLNode``` that represents a single HTML tag with no children. It's constructor will be slightly different from the ```HTMLNode``` class because it doesn't allow for children. A ```LeafNode``` is the terminus of a potential line of notes from ```HTMLNode```.
 
 To create this node, we have to create a child class of the ```HTMLNode``` class. The constructor should **not** allow for children *and* the ```value``` data member is required. These two things make sense - we shouldn't allow for a leaf off of a leaf, and because it's the last possible tag, it should actually have something to print to the screen.
@@ -99,7 +99,32 @@ In hindsight - it's nice to slow down a bit and see exactly where the attributes
 
 We add some tests, and we're done!
 
-### mod6:
+### mod5: ParentNode
+This module has us build the ```ParentNode``` -- these nodes will hold and nest the ```LeafNode```s from above. That means that this node class won't take a ```value``` argument and the ```children``` argument is *not* optional. It won't take values because it won't have its own content, just the content of the children which will be in it. It has to have children because it wouldn't be a parent element without the elements within it.
+
+Creating the classes match the others with slight modifications. Done.
+
+* Create the ```to_html()``` method:
+1. If there is no ```tag``` provided, raise a ```ValueError```
+2. If there are no ```children``` provided, raise a ```ValueError```
+3. Else, it should return a string representing the HTML tag of the node *and its children*. We were asked to do this recursively (yay). To do this, we iterate over each of the children with the ```to_html()``` method, concatenate the results and insert those strings inside the opening and closing tags of the parent.
+4. *note*: We were explicitly told that this doesn't have to look visually appealing, it just needs to be correct so that it can be interpreted correctly.
+
+### mod6: TextNode to HTMLNode
+This module takes a ```TextNode``` and concerts it to an ```HTMLNode``` - further, we will specify which *type* of node. These will be able to adjust to the following types and will end as a ```LeafNode```.
+
+```
+* text_type_text = "text" -- no tags, raw text
+* text_type_bold = "bold" -- <b> tag + text
+* text_type_italic = "italic" -- <i> tag + text
+* text_type_code = "code" -- <code> tag + text
+* text_type_link = "link" -- <a href= "example.com"> tag + text
+* text_type_image = "image" <img src = "example.com" alt = "example alt text"> EMPTY STRING
+```
+
+This one is a little bit tricky - can't forget that the ```props``` value will hold the elements for the link and image types and that is passed in as a *dictionary* not a list.
+
+Added some tests, and we're good to go!
 
 ## Chapter 3: Inline
 
