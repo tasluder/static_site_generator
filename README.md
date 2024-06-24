@@ -40,13 +40,64 @@ This chapter has us dig in a bit more in some different ways.
 ### mod1: TextNode
 This TextNode class that we're creating will serve as the in-between -- it's the plain text version of either the Markdown input or the HTML output (does this mean we could also go in reverse? maybe, right? Could I take an HTML file and turn it into a Markdown file? I would assume so, but that's getting carried away -- I'll start a to-do section and toss this down there).
 
-### mod2:
+This module had us do a couple of things:
+1. Create a basic shell script to run our program - done.
+2. Creae a new directory to house our code - done.
+3. Create a .gitignore file - done.
+4. Create the TextNode class:
+    a little more to do on this one -- I had to create a clas that takes three parameters:
+    1. ```self.text``` - the content within the node (node... I'm curious what this term is based in? Quick search found this: [Node](https://developer.mozilla.org/en-US/docs/Web/API/Node) -- references back to the DOM (and I only know about this because of what I've done previously working on frontend development) the lesson doesn't really cover this aspect and the new term threw me for a bit of a loop honestly.)
+    2. ```self.text_type``` - what type of text the node is - this is how we will know to style the text (bold, italic, etc.)
+    3. ```self.url``` - the url of the link or image if ```self.text_type``` is one of those two - it defaults to ```None```.
+5. Create an ```__eq__``` method for the TextNode class that returns ```True``` if *all* parameters of two TextNode objects are equal.
+6. Create a ```__repr__``` method that returns a string representation of the object (what's the difference between this choice and ```__str__```?)  
 
-### mod3:
+### mod2: TextNode Tests
+OK - another steep curve here - unit testing. I understand what a test is supposed to do conceptually, but in practice this is the first time boot.dev has asked us to write a test.
 
-### mod4:
+This module has us using the ```self.assertEqual()``` method to verify that our new TextNode class works as expected. [Documentation](https://docs.python.org/3/library/unittest.html#unittest.TestCase.assertEqual) tells me that this method ensures that the first and second arguments passed in are equal. If they are, the test passes, and if they aren't, the test fails. Now that I'm writing this readme.md up, I found an answer for a question I had... I wanted to make sure that I could find out if two objects are *not* equal... well, duh... that would be ```self.assertNotEqual()```, but that wasn't in the module. I may go back and add a test or two to make sure I know how this works.
 
-### mod5:
+I ran the tests and they worked - done.
+
+### mod3: HTMLNode
+This module has us create a class which represents HTML nodes. The constructor takes *up to* 4 attributes:
+1. tag - a string that represents which HTML tag will be used as plain text letters
+2. value - a string that represents what's actually inside of your tags
+3. children - a list of HTMLNode objects which represent the children of this node (If this node is a div and there's a child p or ol/ul within it, the p, ol, ul will be represented in this list)
+4. props - a dictionary of pairs representing the attributes of the tag - a link tag ```<a>``` willl have the key-value pair of ```{"href": "https://www.example.com"}``` to store the link - or it could be an image source for an ```<img>``` tag.
+
+This module asks us to make the different attributes optional, and so we set them to defaults of (for example) ```tag = None```.
+
+For this class, we created three methods to use with it:
+1. to_html: this does nothing at the moment and instead only ```raise NotImplementedError("this method is not implemented yet.")```
+2. props_to_html: this method returns a string that represents the HTML attributes that were passed in. props accepts a dictionary, so it takes a bit of indexing and organizing with f strings to make it work.
+3. repr: this methods allows us to print the ```HTMLNode``` object to see all of it's input attributes.
+
+Finally, we're asked to create tests for this new class. When we write tests we need to plug in example attributes to the class, create a new object, and predict what the result should be.
+
+Done and done.
+
+### mod5: LeafNode
+This module is very similar to the previous one, but now we are creating a ```LeafNode```. This is a *type* of ```HTMLNode``` that represents a single HTML tag with no children. It's constructor will be slightly different from the ```HTMLNode``` class because it doesn't allow for children. A ```LeafNode``` is the terminus of a potential line of notes from ```HTMLNode```.
+
+To create this node, we have to create a child class of the ```HTMLNode``` class. The constructor should **not** allow for children *and* the ```value``` data member is required. These two things make sense - we shouldn't allow for a leaf off of a leaf, and because it's the last possible tag, it should actually have something to print to the screen.
+
+We just have to create one method here ```to_html()```. This method will take the value passed in and wrap it in the ```tag``` that is also provided. If there is no ```tag``` provided, the ```value``` should be returned as raw text.
+
+Here are some examples:
+```
+LeafNode("p", "This is a paragraph of text.")
+LeafNode("a", "Click me!", {"href": "https://www.google.com"})
+```
+The above should render as:
+```
+<p>This is a paragraph of text.</p>
+<a href="https://www.google.com">Click me!</a>
+```
+
+In hindsight - it's nice to slow down a bit and see exactly where the attributes should go from the beginning instead of trying to make it do something else... I think I originally tried to have the attributes print as their own tags?! D'oh! It's fixed now.
+
+We add some tests, and we're done!
 
 ### mod6:
 
@@ -80,3 +131,4 @@ This TextNode class that we're creating will serve as the in-between -- it's the
 
 ## To-Do:
 * Can I take an HTML file and turn it into a Markdown file?
+* Write a test that utilizes ```self.assertNotEqual()```
