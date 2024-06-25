@@ -172,29 +172,57 @@ For this function, it's more or less the same exact thing, right? I'll just remo
 
 Ok - it works the way I want it to. I'll add this to the test suite, and we'll be good to go. Tests pass!
 
-### mod3:
+### mod3: Split Images and Links
+*I always read through the module once before writing these steps, and the final note from this module is that **this** is the most challenging step in this project - yay.*
 
-### mod4:
+This module asks us to write two new functions that are similar to our ```split_nodes_delimiter``` function, but our new funcs should put to use the regex extractions we just created. We will define:
+1. ```def split_nodes_image(old_nodes)``` -- given a list of ```old_nodes``` this function will return a new list of ```TextNode```s that contain the ```text```, ```text_type```, and a ```url``` if provided - else ```url = None```.
+The example provided below:
+```
+node = TextNode(
+    "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another ![second image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png)",
+    text_type_text,
+)
+new_nodes = split_nodes_image([node])
+```
+**should yield:**
+```
+[
+    TextNode("This is text with an ", text_type_text),
+    TextNode("image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png"),
+    TextNode(" and another ", text_type_text),
+    TextNode(
+        "second image", text_type_image, "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png"
+    ),
+]
+```
+
+We've been instructed that these two functions will be very similar to one another and will mimic what the previous ```split_nodes_delimiter``` did; however, these functions won't need a delimiter or text type because the ```old_nodes``` strings that are passed in will be specifically passed in to their appropriate function.
+
+2. ```def split_nodes_link(old_nodes)``` -- 
+
+### mod4: Text to TextNodes
 
 ## Chapter 4: Blocks
 
-### mod1:
+### mod1: Split Blocks
 
-### mod2:
+### mod2: Block Types
 
-### mod3:
+### mod3: Block to HTML
 
 ## Chapter 5: Website
 
-### mod1:
+### mod1: Copy Static
 
-### mod2:
+### mod2: Generate Page
 
-### mod3:
+### mod3: Generate Pages Recursively
 
-### mod4:
+### mod4: Submit The Link.
 
 ## To-Do:
+* Finish the project... on step **14 / 23**.
 * Can I take an HTML file and turn it into a Markdown file?
 * Write a test that utilizes ```self.assertNotEqual()```
 * Look for a way to have the ```TextNode``` constructor redefine it's own ```self.text_type``` property based on a delimiter it finds within the string passed to it.

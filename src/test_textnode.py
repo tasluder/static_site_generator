@@ -19,7 +19,6 @@ class TestTextNode(unittest.TestCase):
         test_node = TextNode("This is text with a **bolded** word", "text")
         expected_test_result = [TextNode("This is text with a ", "text"), TextNode("bolded", "bold"), TextNode(" word", "text")]
         tested_string = split_nodes_delimiter([test_node], "**", text_type = "bold")
-        print(tested_string)
         self.assertEqual(expected_test_result, tested_string)
 
     def test_regex_extraction(self):
