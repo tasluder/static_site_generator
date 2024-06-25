@@ -150,7 +150,27 @@ We will create a new function ``` def split_nodes_delimiter(old_nodes, delimiter
 
 This is a weird one... when you build this function, the original list ```old_nodes``` needs to be a regular text_type, and then we define the type of text we're looking for in the function... I feel like there is a better way to write these two things out... for instance, could we pass in a string to the ```TextNode``` constructor, look for the delimiter, and then newly define the ```self.text_type``` based on the delimiter we find? Probably...
 
-### mod2:
+Regardless of extended functionality, I've written this code in and added tests -- done and done!
+
+### mod2: Extract Links
+OK - up next is using regex (regular expressions) to search for particular patterns in text strings that we'll need to extract. Notably: addresses for links in ```<a>``` tags and source links in ```<img>``` tags.
+
+For my own sake - I am documenting this website as a tool to help navigate regex - [regexr](regexr.com).
+
+This module assigns us to write two functions:
+1. ```extract_markdown_images(text)``` -- given a raw string, we will use regex to extract the alt text for an image and the URL associated with the image. This should be a **list** of **tuples** that is returned. A list to accept more than one potential image, and in tuples to make sure that it is immutable and we don't accidentally put the wrong image links with the wrong alt text. Boot.dev gives us this expression to extract image alt text and their links: ```r"!\[(.*?)\]\((.*?)\)"``` plugging this in to regexr gives us this:
+* the "!" character looks for the image alt text in Markdown
+* then we begin to look for the text within the first bracket "["
+* we close the bracket we opened with "]"
+* then we do the same thing for parentheses "(" & ")" to find the link associated with the image
+
+Now to build the function - we should use the ```re``` library from Python and use the ```re.findall()``` method to find expressions that match the above. It will return as a list, so I just have to place those items in their appropriate tuple and we'll be good to go. I'll place this in the textnode.py file since we're passing in the pre-HTML text here. After a bit of experimenting and reading the documentation, ```re.findall()``` automatically returns lists of tuples... nice. Initially I tried creating a new list and ```.append()```, but I think my code doesn't require that, so I tidied it up a bit.
+
+2. ```extract_markdown_links(text)``` -- given a raw string, we will use regex to extract the anchor text and url. I think this is more or less the same exact thing, but we just need to adjust our ```re.findall()``` method to make sure we grab the correct items.
+
+For this function, it's more or less the same exact thing, right? I'll just remove the exclamation point and it should do what I want. This won't account for the use of brackets otherwise... or parentheses, but neither does the original regex expression used.
+
+Ok - it works the way I want it to. I'll add this to the test suite, and we'll be good to go. Tests pass!
 
 ### mod3:
 
@@ -178,3 +198,4 @@ This is a weird one... when you build this function, the original list ```old_no
 * Can I take an HTML file and turn it into a Markdown file?
 * Write a test that utilizes ```self.assertNotEqual()```
 * Look for a way to have the ```TextNode``` constructor redefine it's own ```self.text_type``` property based on a delimiter it finds within the string passed to it.
+* Part of good documentation also includes commenting on my code... I will need to parse my own code and comment it to make sure it is clear to read.

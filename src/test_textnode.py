@@ -22,5 +22,16 @@ class TestTextNode(unittest.TestCase):
         print(tested_string)
         self.assertEqual(expected_test_result, tested_string)
 
+    def test_regex_extraction(self):
+        test_text = "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and ![another](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png)"
+        example_text = extract_markdown_images(test_text)
+        expected_test_text = [("image", "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png"), ("another", "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png")]
+        self.assertEqual(example_text, expected_test_text)
+        test_link = "This is text with a [link](https://www.example.com) and [another](https://www.example.com/another)"
+        example_link = extract_markdown_links(test_link)
+        expected_test_link = [("link", "https://www.example.com"), ("another", "https://www.example.com/another")]
+        self.assertEqual(example_link, expected_test_link)
+
+
 if __name__ == "__main__":
     unittest.main()
