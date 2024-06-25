@@ -128,7 +128,27 @@ Added some tests, and we're good to go!
 
 ## Chapter 3: Inline
 
-### mod1:
+### mod1: Split Delimiter
+This module asks us to bolster the ```TextNode``` functionality a bit more -- rather than just model a ```TextNode```, we will need to be able to convert a raw string into a **list** of ```TextNode``` objects.
+
+The example:
+```
+This is text with a **bolded** word
+```
+Converts to:
+```
+[
+    TextNode("This is text with a ", "text"),
+    TextNode("bolded", "bold"),
+    TextNode(" word", "text"),
+]
+```
+
+This module tells us to keep it simple and only support a single level of nesting when it comes to inline elements (no bold & anchor tags on the same line).
+
+We will create a new function ``` def split_nodes_delimiter(old_nodes, delimiter, text_type):``` that accepts a string of text, the delimiter we'll use to break the string, and the type of text we expect bassed on the previous ```TextNode``` to ```HTMLNode``` functionality we created.
+
+This is a weird one... when you build this function, the original list ```old_nodes``` needs to be a regular text_type, and then we define the type of text we're looking for in the function... I feel like there is a better way to write these two things out... for instance, could we pass in a string to the ```TextNode``` constructor, look for the delimiter, and then newly define the ```self.text_type``` based on the delimiter we find? Probably...
 
 ### mod2:
 
@@ -157,3 +177,4 @@ Added some tests, and we're good to go!
 ## To-Do:
 * Can I take an HTML file and turn it into a Markdown file?
 * Write a test that utilizes ```self.assertNotEqual()```
+* Look for a way to have the ```TextNode``` constructor redefine it's own ```self.text_type``` property based on a delimiter it finds within the string passed to it.
