@@ -30,7 +30,47 @@ class TestTextNode(unittest.TestCase):
         example_link = extract_markdown_links(test_link)
         expected_test_link = [("link", "https://www.example.com"), ("another", "https://www.example.com/another")]
         self.assertEqual(example_link, expected_test_link)
+    
+    def test_split_images(self):
+        node = TextNode(
+            "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another ![second image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png)", 
+            "text"
+        )
+        
+        new_nodes = split_nodes_image([node])
+        
+        expected_new_nodes = [
+            TextNode("This is text with an ", "text"),
+            TextNode("image", "image", "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png"),
+            TextNode(" and another ", "text"),
+            TextNode("second image", "image", "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png")
+        ]
+        
+        self.assertEqual(new_nodes, expected_new_nodes)
 
+    def test_split_links(self):
+        pass
 
+    def test_no_images(self):
+        node = TextNode("Just plain text with no images.", "text")
+        new_nodes = split_nodes_image([node])
+        expected_new_nodes = [TextNode("Just plain text with no images.", "text")]
+        self.assertEqual(new_nodes, expected_new_nodes)
+
+    def test_single_image(self):
+        node = TextNode("Here is an ![image](http://example.com/image.png)", "text")
+        new_nodes = split_nodes_image([node])
+        expected_new_nodes = [
+            TextNode("Here is an ", "text"),
+            TextNode("image", "image", "http://example.com/image.png")
+        ]
+        self.assertEqual(new_nodes, expected_new_nodes)
+
+    def test_invalid_markdown(self):
+        node = TextNode("This is text with an image without proper ![markdown](http", "text")
+        new_nodes = split_nodes_image([node])
+        expected_new_nodes = [TextNode("This is text with an image without proper ![markdown](http", "text")]
+        self.assertEqual(new_nodes, expected_new_nodes)
+        
 if __name__ == "__main__":
     unittest.main()

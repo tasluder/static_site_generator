@@ -52,7 +52,39 @@ def extract_markdown_links(text):
     return matches
 
 def split_nodes_image(old_nodes):
-    pass
+    new_nodes = []
+    for node in old_nodes:
+        matches = extract_markdown_images(node.text)
+        if len(matches) == 0:
+            new_nodes.append(node)
+        else:
+            remaining_text = node.text
+            for match in matches:
+                description, url = match
+                parts = remaining_text.split(f"![{description}]({url})", 1)
+                if parts[0]:
+                    new_nodes.append(TextNode(parts[0], "text"))
+                new_nodes.append(TextNode(description, "image", url))
+                remaining_text = parts[1]
+            if remaining_text:
+                new_nodes.append(TextNode(remaining_text, "text"))
+    return new_nodes
 
 def split_nodes_link(old_nodes):
-    pass
+    new_nodes = []
+    for node in old_nodes:
+        matches = extract_markdown_links(node.text)
+        if len(matches) == 0:
+            new_nodes.append(node)
+        else:
+            remaining_text = node.text
+            for match in matches:
+                description, url = match
+                parts = remaining_text.split(f"[{description}]({url})", 1)
+                if parts[0]:
+                    new_nodes.append(TextNode(parts[0], "text"))
+                new_nodes.append(TextNode(description, "link", url))
+                remaining_text = parts[1]
+            if remaining_text:
+                new_nodes.append(TextNode(remaining_text, "text"))
+    return new_nodes

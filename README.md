@@ -199,7 +199,9 @@ new_nodes = split_nodes_image([node])
 
 We've been instructed that these two functions will be very similar to one another and will mimic what the previous ```split_nodes_delimiter``` did; however, these functions won't need a delimiter or text type because the ```old_nodes``` strings that are passed in will be specifically passed in to their appropriate function.
 
-2. ```def split_nodes_link(old_nodes)``` -- 
+2. ```def split_nodes_link(old_nodes)``` -- This was more or less the same function call, but adjusted to remove the ```!``` in a lot of the f-strings.
+
+Holy smokes - this one was a doozy, but tests are written and it's done.
 
 ### mod4: Text to TextNodes
 
