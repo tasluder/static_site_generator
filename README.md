@@ -204,6 +204,11 @@ We've been instructed that these two functions will be very similar to one anoth
 Holy smokes - this one was a doozy, but tests are written and it's done.
 
 ### mod4: Text to TextNodes
+This is the last module for this chapter!
+
+We are putting it all together and calling all of our splitting functions on the input string to create a list of nodes based on it.
+
+Cool cool cool my tests aren't working and I'm not sure where I went wrong.
 
 ## Chapter 4: Blocks
 
@@ -224,7 +229,7 @@ Holy smokes - this one was a doozy, but tests are written and it's done.
 ### mod4: Submit The Link.
 
 ## To-Do:
-* Finish the project... on step **14 / 23**.
+* Finish the project... on step **16 / 23**.
 * Can I take an HTML file and turn it into a Markdown file?
 * Write a test that utilizes ```self.assertNotEqual()```
 * Look for a way to have the ```TextNode``` constructor redefine it's own ```self.text_type``` property based on a delimiter it finds within the string passed to it.

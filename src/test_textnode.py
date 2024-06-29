@@ -71,6 +71,12 @@ class TestTextNode(unittest.TestCase):
         new_nodes = split_nodes_image([node])
         expected_new_nodes = [TextNode("This is text with an image without proper ![markdown](http", "text")]
         self.assertEqual(new_nodes, expected_new_nodes)
+
+    def test_text_to_textnodes(self):
+        node = "This is **bold text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)"
+        new_nodes = text_to_textnodes(node)
+        expected_new_nodes = [TextNode("This is ", "text"), TextNode("bold text", "bold"), TextNode(" with an ", "text"), TextNode("italic", "italic"), TextNode(" word and a ", "text"), TextNode("code block", "code"), TextNode(" and an ", "text"), TextNode("image", "image", "https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png"), TextNode(" and a ", "text"), TextNode("link", "link", "https://boot.dev")]
+        self.assertEqual(new_nodes, expected_new_nodes)
         
 if __name__ == "__main__":
     unittest.main()
